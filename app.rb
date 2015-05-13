@@ -81,6 +81,10 @@ delete('/categories/:category_id/recipes/:id') do
   redirect to('/')
 end
 
+patch '/categories/:category_id/recipes/:id' do
+
+end
+
 post('/categories/:category_id/recipes/:id/ingredients') do
   recipe = Recipe.find(params.fetch("id").to_i)
   #category.recipes.push(recipe)
@@ -90,4 +94,12 @@ post('/categories/:category_id/recipes/:id/ingredients') do
   else
     erb(:errors)
   end
+end
+
+delete('/categories/:category_id/recipes/:recipe_id/ingredients/:id') do
+  category_id = params.fetch('category_id').to_i()
+  recipe_id = params.fetch('recipe_id').to_i()
+  id = params.fetch('id').to_i()
+  Ingredient.find(id).destroy()
+  redirect to("/categories/#{category_id}/recipes/#{recipe_id}")
 end

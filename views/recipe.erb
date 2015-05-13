@@ -18,6 +18,12 @@
             <td class="primary">
               <span><%= ingredient.name() %></span>
             </td>
+            <td class="primary">
+              <form action='/categories/<%= @category.id %>/recipes/<%= @recipe.id %>' method='post'>
+                <input type='hidden' name='_method' value='delete'>
+                <button type='submit' class="btn">Delete</button>
+              </form>
+            </td>
           </tr>
         <% end %>
       </table>
