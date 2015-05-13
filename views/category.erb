@@ -1,0 +1,29 @@
+<h1 class="page-header text-center">Recipes</h1>
+
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2 push-down">
+    <form action="/categories/<%= @category.id %>/recipes" method="post">
+      <div class="form-group">
+        <input name="name" class="form-control capitalize" placeholder="Add a new recipe" autofocus>
+      </div>
+      <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+
+    <div class="push-down">
+      <h4>Recipes:</h4>
+
+      <table class="table">
+        <% @recipes.each() do |recipe| %>
+          <tr>
+            <td class="primary">
+              <a href="/categories/<%= @category.id() %>/recipes/<%= recipe.id() %>"><%= recipe.name() %></a>
+            </td>
+            <td>
+              <a href="/categories/<%= @category.id() %>/recipes/<%= recipe.id() %>/edit">Edit</a>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>

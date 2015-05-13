@@ -5,8 +5,6 @@ Bundler.require(:default, :test)
 
 Dir[File.dirname(__FILE__) + '/../lib/*.rb'].each { |file| require file }
 
-#ActiveRecord::Base.logger = Logger.new(STDOUT)
-
 RSpec.configure do |config|
   config.before(:each) do
     #optionally do something before each test
