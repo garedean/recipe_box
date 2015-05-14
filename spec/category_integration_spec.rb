@@ -6,7 +6,7 @@ Capybara.app = Sinatra::Application
 set(:show_exceptions, false)
 
 describe('the recipe box app', type: :feature) do
-  describe('add category') do
+  describe('add category functionality') do
     it('allow a user to add a category') do
       visit('/')
       fill_in('name', with: 'Appetizers')
@@ -15,7 +15,7 @@ describe('the recipe box app', type: :feature) do
     end
   end
 
-  describe('edit category name') do
+  describe('edit category name functionality') do
     it('allow a user to rename a category') do
       Category.create(name: 'Appetizers')
       visit('/')
