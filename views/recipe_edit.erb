@@ -14,13 +14,16 @@
         <% @categories.each() do |category| %>
           <div class="checkbox">
             <label>
-            <input type="checkbox" value="">
+            <input type="checkbox" name="checkbox_values[]" value="<%= category.id %>"
+              <% if @categories_checked.include?(category.id) %>
+                checked
+              <% end %>
+                >
               <%= category.name %>
             </label>
           </div>
-        <% end%>
+        <% end %>
       </div>
-    </form>
 
       <button type='submit' class="btn btn-success stretch">Update</button>
     </form>

@@ -85,6 +85,7 @@ get('/categories/:category_id/recipes/:id/edit') do
   @categories = Category.all()
   @ingredients  = @recipe.ingredients
   @instructions = @recipe.instructions
+  @categories_checked = @recipe.categories.ids
   erb(:recipe_edit)
 end
 
@@ -97,9 +98,10 @@ end
 
 patch('/categories/:category_id/recipes/:recipe_id') do
   recipe = Recipe.find(params.fetch("recipe_id").to_i)
-
   rating = params.fetch('rating', nil)
   name   = params.fetch('name', nil)
+  categories = params.fetch('checkbox_values', nil)
+  categories.map!(&:to_i)
 
   if name
     recipe.update(name: name)
@@ -109,11 +111,16 @@ patch('/categories/:category_id/recipes/:recipe_id') do
     recipe.update(rating: rating.to_i)
   end
 
+  if categories
+    recipe.category_ids = categories
+  end
+#binding.pry
   category_id = params.fetch('category_id').to_i()
 
   redirect back if params.fetch("same_page", nil)
 
   redirect to("/categories/#{category_id}")
+
 end
 
 post('/categories/:category_id/recipes/:id/ingredients') do
