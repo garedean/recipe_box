@@ -9,13 +9,13 @@ describe('the recipe box app', type: :feature) do
   describe('add incredient functionality') do
     it('adds a new ingredient to a recipe') do
       category = Category.create(name: 'Appetizers')
-      recipe = Recipe.new(name: 'Caviar on crackers', category_ids: category.id)
+      recipe = Recipe.new(name: 'Crab Cakes', category_ids: category.id)
       recipe.save
-      Ingredient.new(name: 'Caviar', recipe_id: recipe.id).save
+      Ingredient.new(name: 'Crab', recipe_id: recipe.id).save
       visit("/categories/#{category.id}/recipes/#{recipe.id}")
       fill_in('name', with: 'Caviar')
       click_button('Add')
-      expect(page).to(have_content('Caviar'))
+      expect(page).to(have_content('Crab'))
     end
   end
 

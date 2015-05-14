@@ -1,7 +1,12 @@
-require("bundler/setup")
+require('bundler/setup')
 require('pry')
 Bundler.require(:default)
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each { |file| require file }
+
+get('/reset') do
+  reset_everything
+  redirect to('/')
+end
 
 get('/') do
   @categories = Category.all
@@ -28,13 +33,13 @@ patch('/categories/:id') do
   id = params.fetch('id').to_i()
   name = params.fetch('name')
   Category.find(id).update(name: name)
-  redirect to('/')
+  redirect back
 end
 
 delete('/categories/:id') do
   id = params.fetch('id').to_i()
   Category.find(id).destroy()
-  redirect to('/')
+  redirect ("/")
 end
 
 get('/categories/:id') do
@@ -47,11 +52,11 @@ end
 post('/categories/:id/recipes') do
   category = Category.find(params["id"].to_i)
 
-  #category.recipes.push(recipe)
+  #category.recipes << recipe
   @object = Recipe.new(name: params.fetch("name"), category_ids: [category.id])
 
   if @object.save()
-    redirect to("/categories/#{params["id"]}")
+    redirect back
   else
     erb(:errors)
   end
@@ -63,14 +68,17 @@ get('/categories/:category_id/recipes/:id') do
    @recipe = Recipe.find(id)
    @category = Category.find(category_id)
    @ingredients = @recipe.ingredients()
+   @instructions = @recipe.instructions()
   erb(:recipe)
 end
 
-get '/categories/:category_id/recipes/:id/edit' do
+get('/categories/:category_id/recipes/:id/edit') do
   category_id = params.fetch('category_id').to_i()
   id = params.fetch('id').to_i()
   @recipe = Recipe.find(id)
   @category = Category.find(category_id)
+  @ingredients  = @recipe.ingredients
+  @instructions = @recipe.instructions
   erb(:recipe_edit)
 end
 
@@ -78,11 +86,16 @@ delete('/categories/:category_id/recipes/:id') do
   category_id = params.fetch('category_id').to_i()
   id = params.fetch('id').to_i()
   Recipe.find(id).destroy()
-  redirect to('/')
+  redirect ("/categories/#{category_id}")
 end
 
-patch '/categories/:category_id/recipes/:id' do
+patch('/categories/:category_id/recipes/:recipe_id') do
+  recipe = Recipe.find(params.fetch("recipe_id").to_i)
+  recipe.update(rating: params.fetch("rating", 0).to_i)
+  category_id = params.fetch('category_id').to_i()
+  binding.pry
 
+  redirect to("/categories/#{category_id}")
 end
 
 post('/categories/:category_id/recipes/:id/ingredients') do
@@ -101,5 +114,34 @@ delete('/categories/:category_id/recipes/:recipe_id/ingredients/:id') do
   recipe_id = params.fetch('recipe_id').to_i()
   id = params.fetch('id').to_i()
   Ingredient.find(id).destroy()
-  redirect to("/categories/#{category_id}/recipes/#{recipe_id}")
+  redirect back
+  #redirect to("/categories/#{category_id}/recipes/#{recipe_id}")
+end
+
+# INSTRUCTIONS
+# -----------------------------------------------------------------------
+
+post '/categories/:category_id/recipes/:recipe_id/instructions' do
+  recipe = Recipe.find(params.fetch("recipe_id").to_i)
+
+  recipe.instructions.create(description: params.fetch("description"))
+
+  # ------Alternate syntaxes on creating associated objects-------
+
+  #instruction = Instruction.new(description: params.fetch("description"), recipe_id: recipe.id)
+  #instruction.save
+
+  # instruction = Instruction.new(description: params.fetch("description"))
+  # recipe.instructions << instruction
+
+  redirect back
+end
+
+delete('/categories/:category_id/recipes/:recipe_id/instructions/:id') do
+  category_id = params.fetch('category_id').to_i()
+  recipe_id = params.fetch('recipe_id').to_i()
+  id = params.fetch('id').to_i()
+  Instruction.find(id).destroy()
+  redirect back
+  #redirect to("/categories/#{category_id}/recipes/#{recipe_id}")
 end

@@ -18,3 +18,72 @@
     </form>
   </div>
 </div>
+
+<div class="row push-down">
+  <div class="col-sm-8 col-sm-offset-2">
+    <div class="row">
+      <div class="col-md-5">
+
+        <h4>Ingredients:</h4>
+
+        <form action="/categories/<%= @category.id %>/recipes/<%= @recipe.id %>/ingredients" method="post">
+          <div class="form-group">
+            <input name="name" class="form-control capitalize" placeholder="Add new ingredient" required autofocus>
+          </div>
+          <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+
+        <div class="push-down">
+
+          <table class="table">
+            <% @ingredients.each() do |ingredient| %>
+              <tr>
+                <td class="primary">
+                  <span><%= ingredient.name() %></span>
+                </td>
+                <td class="primary">
+                  <form action='/categories/<%= @category.id %>/recipes/<%= @recipe.id %>/ingredients/<%= ingredient.id %>' method='post'>
+                    <input type='hidden' name='_method' value='delete'>
+                    <button type='submit' class="btn">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-md-7">
+
+        <h4>Instructions:</h4>
+
+        <form action="/categories/<%= @category.id %>/recipes/<%= @recipe.id %>/instructions" method="post">
+          <div class="form-group">
+            <input name="description" class="form-control" placeholder="Add new instruction" required autofocus>
+          </div>
+          <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+
+        <div class="push-down">
+
+          <table class="table">
+            <% @instructions.each_with_index() do |instruction, idx| %>
+              <tr>
+                <td class="primary">
+                  <span>Step <%= idx.+(1) %>:</span><br>
+                  <span><%= instruction.description() %></span>
+                </td>
+                <td class="primary">
+                  <form action='/categories/<%= @category.id %>/recipes/<%= @recipe.id %>/instructions/<%= instruction.id %>' method='post'>
+                    <input type='hidden' name='_method' value='delete'>
+                    <button type='submit' class="btn">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

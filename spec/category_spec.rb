@@ -1,26 +1,33 @@
 require('spec_helper')
 
 describe(Category) do
-  describe('validations for input fields, #save') do
-    it('shows error page when category name is not present') do
-      category = Category.new(name: '')
-      expect(category.save).to(eq(false))
-    end
+  # it('has many recipes') do
+  #   category = Category.create(name: 'Appetizers')
+  #   recipe1 = Recipe.create(name: 'Caviar on crackers', category_ids: [category.id])
+  #   recipe2 = Recipe.create(name: 'Smoked salmon', category_ids: [category.id])
+  #   expect(category.recipes).to(eq([recipe1, recipe2]))
+  # end
 
-    it('returns false when category name length is <= 2 ') do
-      category = Category.new(name: 'r')
-      expect(category.save).to(eq(false))
-    end
+  it { should have_and_belong_to_many(:recipes) }
 
-    it('returns false when category name length is >= 50') do
-      category = Category.new(name: 'r'*(51))
-      expect(category.save).to(eq(false))
-    end
+  it('validates presence of name') do
+    category = Category.new(name: '')
+    expect(category.save).to(eq(false))
+  end
 
-    it('returns false when category name is not unique') do
-      Category.create(name: 'dinner')
-      test_cat = Category.new(name: 'dinner')
-      expect(test_cat.save()).to(eq(false))
-    end
+  it('validates name is 2 or more characters') do
+    category = Category.new(name: 'r')
+    expect(category.save).to(eq(false))
+  end
+
+  it('validates name is 50 or fewer characters') do
+    category = Category.new(name: 'r'*(51))
+    expect(category.save).to(eq(false))
+  end
+
+  it('validates name is unique') do
+    Category.create(name: 'dinner')
+    test_cat = Category.new(name: 'dinner')
+    expect(test_cat.save()).to(eq(false))
   end
 end
