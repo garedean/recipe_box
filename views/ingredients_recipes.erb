@@ -1,0 +1,18 @@
+<h1 class="page-header text-center">Find by Ingredient</h1>
+
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2 push-down">
+    <form action="/recipes/find">
+      <div class="form-group">
+        <input name="query" class="form-control capitalize" placeholder="Type in an ingredient" autofocus>
+      </div>
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <% @recipes.each do |recipe| %>
+      <%= recipe.name %>
+    <% end %>
+
+
+  </div>
+</div>

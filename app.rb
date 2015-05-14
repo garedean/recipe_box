@@ -13,6 +13,38 @@ get('/recipes/top') do
   erb(:recipes)
 end
 
+get('/recipes/find') do
+  query = params.fetch("query", nil)
+
+  @recipes = []
+
+  if query
+    matches = []
+    recipe_matches = []
+
+    #@recipes = Ingredient.where(name: query)
+    @recipes = Ingredient.where(name: query)
+
+    @recipes.each do |recipe|
+      matches << recipe.id
+    end
+
+    matches.uniq!
+
+    matches.each do |i|
+      recipe_matches << Recipe.find(i)
+    end
+
+    @recipes = recipe_matches
+  end
+
+  erb(:ingredients_recipes)
+end
+
+# get('/recipes/results') do
+#   erb(:ingredients_recipes)
+# end
+
 get('/') do
   @categories = Category.all
   erb(:categories)
@@ -114,7 +146,7 @@ patch('/categories/:category_id/recipes/:recipe_id') do
   if categories
     recipe.category_ids = categories
   end
-#binding.pry
+
   category_id = params.fetch('category_id').to_i()
 
   redirect back if params.fetch("same_page", nil)
