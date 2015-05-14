@@ -8,6 +8,11 @@ get('/reset') do
   redirect to('/')
 end
 
+get('/recipes/top') do
+  @recipes = Recipe.where('rating > 3').order(:rating)
+  erb(:recipes)
+end
+
 get('/') do
   @categories = Category.all
   erb(:categories)
@@ -77,6 +82,7 @@ get('/categories/:category_id/recipes/:id/edit') do
   id = params.fetch('id').to_i()
   @recipe = Recipe.find(id)
   @category = Category.find(category_id)
+  @categories = Category.all()
   @ingredients  = @recipe.ingredients
   @instructions = @recipe.instructions
   erb(:recipe_edit)
@@ -91,9 +97,21 @@ end
 
 patch('/categories/:category_id/recipes/:recipe_id') do
   recipe = Recipe.find(params.fetch("recipe_id").to_i)
-  recipe.update(rating: params.fetch("rating", 0).to_i)
+
+  rating = params.fetch('rating', nil)
+  name   = params.fetch('name', nil)
+
+  if name
+    recipe.update(name: name)
+  end
+
+  if rating
+    recipe.update(rating: rating.to_i)
+  end
+
   category_id = params.fetch('category_id').to_i()
-  binding.pry
+
+  redirect back if params.fetch("same_page", nil)
 
   redirect to("/categories/#{category_id}")
 end

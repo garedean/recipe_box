@@ -1,0 +1,35 @@
+<h1 class="page-header text-center">Top Recipes</h1>
+
+<p class="lead text-center">Recipes on this page have a star rating of three or higher.</p>
+
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2 push-down">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="primary">Recipe</th>
+          <th class="star-column">Rating</th>
+        </tr>
+      </thead>
+
+      <% @recipes.each() do |recipe| %>
+        <tr>
+          <td class="primary">
+            <a href=""><%= recipe.name() %></a>
+          </td>
+          <td class="star-column">
+            <% if recipe.rating != nil %>
+              <% recipe.rating.times do |i| %>
+                <span class="glyphicon glyphicon-star"></span>
+              <% end %>
+            <% else %>
+                <span>Not Rated</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+
+  </div>
+</div>

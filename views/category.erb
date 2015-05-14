@@ -1,4 +1,4 @@
-<h1 class="page-header text-center">Recipes</h1>
+<h1 class="page-header text-center"><%= @category.name %> Recipes</h1>
 
 <div class="row">
   <div class="col-sm-8 col-sm-offset-2 push-down">
@@ -10,15 +10,31 @@
     </form>
 
     <div class="push-down">
-      <h4>Recipes:</h4>
 
       <table class="table">
+        <thead>
+          <tr>
+            <th class="primary">Recipe</th>
+            <th class="secondary">Rating</th>
+            <th class="ternary">Edit</th>
+          </tr>
+        </thead>
+
         <% @recipes.each() do |recipe| %>
           <tr>
             <td class="primary">
               <a href="/categories/<%= @category.id() %>/recipes/<%= recipe.id() %>"><%= recipe.name() %></a>
             </td>
-            <td>
+            <td class="secondary">
+              <% if recipe.rating != nil %>
+                <% recipe.rating.times do |i| %>
+                  <span class="glyphicon glyphicon-star"></span>
+                <% end %>
+              <% else %>
+                  <span>Not Rated</span>
+              <% end %>
+            </td>
+            <td class="ternary">
               <a href="/categories/<%= @category.id() %>/recipes/<%= recipe.id() %>/edit" class="edit-link">Edit</a>
             </td>
           </tr>

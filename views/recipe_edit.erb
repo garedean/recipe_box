@@ -9,6 +9,19 @@
       <div class="form-group">
         <input name='name' type='name' class="form-control" value='<%= @recipe.name%>'>
       </div>
+
+      <div class="horizontal-checkboxes cf">
+        <% @categories.each() do |category| %>
+          <div class="checkbox">
+            <label>
+            <input type="checkbox" value="">
+              <%= category.name %>
+            </label>
+          </div>
+        <% end%>
+      </div>
+    </form>
+
       <button type='submit' class="btn btn-success stretch">Update</button>
     </form>
 
@@ -41,7 +54,7 @@
                 <td class="primary">
                   <span><%= ingredient.name() %></span>
                 </td>
-                <td class="primary">
+                <td class="ternary">
                   <form action='/categories/<%= @category.id %>/recipes/<%= @recipe.id %>/ingredients/<%= ingredient.id %>' method='post'>
                     <input type='hidden' name='_method' value='delete'>
                     <button type='submit' class="btn">Delete</button>
@@ -73,7 +86,7 @@
                   <span>Step <%= idx.+(1) %>:</span><br>
                   <span><%= instruction.description() %></span>
                 </td>
-                <td class="primary">
+                <td class="ternary">
                   <form action='/categories/<%= @category.id %>/recipes/<%= @recipe.id %>/instructions/<%= instruction.id %>' method='post'>
                     <input type='hidden' name='_method' value='delete'>
                     <button type='submit' class="btn">Delete</button>

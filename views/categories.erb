@@ -9,16 +9,24 @@
       <button type="submit" class="btn btn-primary">Add</button>
     </form>
 
+    <a href="/recipes/top">Highest rated recipes</a>
+
     <div class="push-down">
-      <h4>Categories:</h4>
 
       <table class="table">
+        <thead>
+          <tr>
+            <th class="primary">Recipe</th>
+            <th class="ternary">Edit</th>
+          </tr>
+        </thead>
+
         <% @categories.each() do |category| %>
           <tr>
             <td class="primary">
               <a href="/categories/<%= category.id() %>"><%= category.name() %></a>
             </td>
-            <td>
+            <td class="ternary">
               <a href="/categories/<%= category.id() %>/edit" class="edit-link">Edit</a>
             </td>
           </tr>

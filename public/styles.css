@@ -3,11 +3,22 @@
 }
 
 .primary {
-  width: 85%;
+  width: 65%;
 }
 
 .secondary {
-  width: 15%;
+  width: 25%;
+  text-align: center;
+}
+
+.ternary {
+  width: 10%;
+  text-align: right;
+}
+
+.star-column {
+  width: 20%;
+  text-align: center;
 }
 
 .indent {
@@ -37,6 +48,34 @@ button.stacked {
   left: 5px;
 }
 
-.edit-link {
-  float: right;
+.glyphicon-star {
+  color: gold;
+}
+
+.horizontal-checkboxes {
+  height: 20px;
+  margin-bottom: 20px;
+}
+
+.horizontal-checkboxes div.checkbox {
+  float: left;
+  margin: 0 20px 0 0;
+}
+
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
 }
