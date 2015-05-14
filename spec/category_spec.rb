@@ -10,11 +10,6 @@ describe(Category) do
 
   it { should have_and_belong_to_many(:recipes) }
 
-  it('validates presence of name') do
-    category = Category.new(name: '')
-    expect(category.save).to(eq(false))
-  end
-
   it('validates name is 2 or more characters') do
     category = Category.new(name: 'r')
     expect(category.save).to(eq(false))
